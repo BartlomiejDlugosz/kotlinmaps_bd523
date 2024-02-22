@@ -272,6 +272,7 @@ abstract class CustomMutableMapTest {
             assertNull(map.put(Entry(i.toString(), i)))
         }
         for (i in 1..100) {
+            println(i)
             assertTrue(map.contains(i.toString()))
             assertEquals(i, map.get(i.toString()))
             if (i % 2 == 0) {
