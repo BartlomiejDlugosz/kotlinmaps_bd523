@@ -1,6 +1,6 @@
 package maps
 
-class ListBasedMap<K, V>() : CustomMutableMap<K, V> {
+class ListBasedMap<K, V> : CustomMutableMap<K, V> {
     override val entries = CustomLinkedList<Entry<K, V>>()
 
     override val keys: Iterable<K>
@@ -36,18 +36,4 @@ class ListBasedMap<K, V>() : CustomMutableMap<K, V> {
     }
 
     override fun contains(key: K): Boolean = entries.firstOrNull{ it.key == key }?.value != null
-}
-
-fun main() {
-    val list = ListBasedMap<String, Int>()
-    list.put("hello", 5)
-    list.put("hello2", 4)
-    list.put("hello3", 3)
-
-    list.entries.forEach { println(it) }
-    println("----")
-
-    list.remove("hello2")
-    println("----")
-    list.entries.forEach { println(it) }
 }

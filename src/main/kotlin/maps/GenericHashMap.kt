@@ -5,13 +5,12 @@ typealias BucketFactory<K, V> = () -> CustomMutableMap<K, V>
 abstract class GenericHashMap<K, V>(private val bucketFactory: BucketFactory<K, V>) : CustomMutableMap<K, V> {
     abstract var buckets: Array<CustomMutableMap<K, V>>
 
-    abstract val size: Int
     abstract val loadFactor: Double
 
     private fun hashingFunction(key: K): Int = key.hashCode() and (buckets.size - 1)
 
     override val entries: Iterable<Entry<K, V>>
-        get() = buckets.flatMap { (it.keys zip (it.values)).map{Entry(it.first, it.second)} }
+        get() = buckets.flatMap { (it.keys zip it.values).map{entry -> Entry(entry.first, entry.second)} }
 
     override val keys: Iterable<K>
         get() = buckets.flatMap { it.keys }
@@ -46,7 +45,7 @@ abstract class GenericHashMap<K, V>(private val bucketFactory: BucketFactory<K, 
     override fun put(entry: Entry<K, V>): V? = put(entry.key, entry.value)
 
     override fun remove(key: K): V? {
-        val bucket = buckets[hashingFunction(key)] ?: return null
+        val bucket = buckets[hashingFunction(key)]
         if (bucket[key] == null) {
             return null
         }
