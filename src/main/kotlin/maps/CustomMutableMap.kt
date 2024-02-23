@@ -17,11 +17,17 @@ interface CustomMutableMap<K, V> {
     operator fun get(key: K): V?
 
     // Operator version of 'put' to allow array-like indexing.
-    operator fun set(key: K, value: V): V?
+    operator fun set(
+        key: K,
+        value: V,
+    ): V?
 
     // Associates 'value' with 'key'. Returns the previous value associated with
     // 'key', or null if there is no such previous value.
-    fun put(key: K, value: V): V?
+    fun put(
+        key: K,
+        value: V,
+    ): V?
 
     // Associates the value of 'entry' with the key of 'entry'. Returns the previous
     // value associated with this key, or null if there is no such previous value.

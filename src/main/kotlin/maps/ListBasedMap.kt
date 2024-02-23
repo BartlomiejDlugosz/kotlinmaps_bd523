@@ -10,9 +10,15 @@ class ListBasedMap<K, V> : CustomMutableMap<K, V> {
 
     override fun get(key: K): V? = entries.firstOrNull { it.key == key }?.value
 
-    override fun set(key: K, value: V): V? = put(key, value)
+    override fun set(
+        key: K,
+        value: V,
+    ): V? = put(key, value)
 
-    override fun put(key: K, value: V): V? = put(Entry(key, value))
+    override fun put(
+        key: K,
+        value: V,
+    ): V? = put(Entry(key, value))
 
     override fun put(entry: Entry<K, V>): V? {
         var removed: V? = null
@@ -35,5 +41,5 @@ class ListBasedMap<K, V> : CustomMutableMap<K, V> {
         return null
     }
 
-    override fun contains(key: K): Boolean = entries.firstOrNull{ it.key == key }?.value != null
+    override fun contains(key: K): Boolean = entries.firstOrNull { it.key == key }?.value != null
 }

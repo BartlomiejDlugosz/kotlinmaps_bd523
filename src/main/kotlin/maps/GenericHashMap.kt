@@ -10,25 +10,29 @@ abstract class GenericHashMap<K, V>(private val bucketFactory: BucketFactory<K, 
     private fun hashingFunction(key: K): Int = key.hashCode() and (buckets.size - 1)
 
     override val entries: Iterable<Entry<K, V>>
-        get() = buckets.flatMap { (it.keys zip it.values).map{entry -> Entry(entry.first, entry.second)} }
+        get() = buckets.flatMap { (it.keys zip it.values).map { entry -> Entry(entry.first, entry.second) } }
 
     override val keys: Iterable<K>
         get() = buckets.flatMap { it.keys }
     override val values: Iterable<V>
         get() = buckets.flatMap { it.values }
 
-
-
     override fun contains(key: K): Boolean = get(key) != null
 
     override fun get(key: K): V? = buckets[hashingFunction(key)][key]
 
-    override fun set(key: K, value: V): V? = put(key, value)
+    override fun set(
+        key: K,
+        value: V,
+    ): V? = put(key, value)
 
-    override fun put(key: K, value: V): V? {
+    override fun put(
+        key: K,
+        value: V,
+    ): V? {
         if (keys.count() + 1 > buckets.size * loadFactor) {
             val newBuckets = Array(buckets.size * 2) { bucketFactory() }
-            entries.forEach{ newBuckets[hashingFunction(it.key)].put(it) }
+            entries.forEach { newBuckets[hashingFunction(it.key)].put(it) }
             buckets = newBuckets
         }
 
