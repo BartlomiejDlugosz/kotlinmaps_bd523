@@ -38,32 +38,40 @@ open class CustomLinkedList<T> : MutableIterable<T> {
             var current: Node<T>? = root
             var nextItem: Node<T>? = root.next
             var lastItem: Node<T>? = null
+            var removedLast = false
 
-            override fun hasNext(): Boolean {
-                return nextItem != null
-            }
+            override fun hasNext(): Boolean = nextItem != null
 
             override fun next(): T {
                 if (!hasNext()) throw NoSuchElementException()
-                lastItem = current
+                if (!removedLast) {
+                    lastItem = current
+
+                }
                 current = nextItem
                 nextItem = current?.next
-
+                removedLast = false
                 return (current as? ValueNode<T>)?.value ?: throw NoSuchElementException()
             }
 
             override fun remove() {
                 if (lastItem == null) throw UnsupportedOperationException()
                 lastItem?.next = nextItem
+                removedLast = true
             }
         }
     }
 }
 
 fun main() {
-    val list = CustomLinkedList<Int>()
-    list.add(1)
-    list.add(2)
-    list.add(3)
-    list.forEach { println(it) }
+    val cll = CustomLinkedList<List<Double>>()
+    cll.add(listOf(4.0))
+    cll.add(listOf(9.9,1.1))
+    cll.add(listOf(3.2))
+    val cllIterator = cll.iterator()
+    while(cllIterator.hasNext()) {
+        cllIterator.next()
+        cllIterator.remove()
+    }
+    println(cll)
 }
